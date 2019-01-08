@@ -1,11 +1,16 @@
 #pragma once
 #include <atlimage.h>
 #include <iostream>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/opencv.hpp>
+//#include <opencv2/highgui/highgui.hpp>
+
 using namespace std;
+using namespace cv;
 
 class Image {
 private:
-	CImage image;
+	Mat Srcimg;
 public:
 	short rows;
 	short columns;

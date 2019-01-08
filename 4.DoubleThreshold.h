@@ -1,15 +1,33 @@
 #pragma once
 #include "0.Image.h"
-class DThres :public Image {
+#include "3.Non-Maximum.h"
+class DThres :public NonMax {
 private:
 	float const down = 0.55 * 255;
 	float const up = 0.60 * 255;
+protected:
+	double** DoubleThresholdMat;
 public:
-	DThres(short GRows, short GColumns) : Image(GRows, GColumns) {};
-	double** GetDThresMat(double** RGBMat);
+	DThres(Mat ImgMat) : NonMax(ImgMat) {
+		DoubleThresholdMat = new double *[rows];    // массив указателей (2)
+		for (int i = 0; i < rows; i++) {   // (3)
+			DoubleThresholdMat[i] = new double[columns];     // инициализация указателей
+		}
+
+		CalculateDoubleThreshold();
+		Parasite::CopyArrays(RGBMat, DoubleThresholdMat);
+	};
+	void CalculateDoubleThreshold();
+	Mat GetDoubleThresholdResult();
+	~DThres() {
+		for (int i = 0; i < rows; i++) {
+			delete[]  DoubleThresholdMat[i];
+		}
+		delete[]  DoubleThresholdMat;
+	}
 };
 
-double** DThres::GetDThresMat(double** RGBMat) {
+void DThres::CalculateDoubleThreshold() {
 	for (int i = 0; i < columns; i++) {
 		for (int j = 0; j < rows; j++) {
 			if (RGBMat[j][i] >= up) {
@@ -20,5 +38,9 @@ double** DThres::GetDThresMat(double** RGBMat) {
 			}
 		}
 	}
-	return RGBMat;
+}
+
+Mat DThres::GetDoubleThresholdResult() {
+	Parasite::SArrToMat(DoubleThresholdMat);
+	return Parasite::ProducedImage;
 }

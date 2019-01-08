@@ -1,19 +1,20 @@
 #pragma once
-#pragma once
-#include "0.Image.h"
-class EdgeTrack :public Image {
+#include "4.DoubleThreshold.h"
+class EdgeTrack :public DThres {
 private:
 	short movdir[2][8] = { {-1,-1,-1,0,0,1,1,1},{-1,0,1,-1,1,-1,0,1} };
 	short High = 255;
 	short Low = 127;
 public:
-	EdgeTrack(short GRows, short GColumns) : Image(GRows, GColumns) {
+	EdgeTrack(Mat ImgMat) : DThres(ImgMat) {
+		CalculateEdgeTrackMat();
 
 	}
-	double** GetEdgeTrackMat(double** RGBMat);
+	void CalculateEdgeTrackMat();
+	Mat GetEdgeTrackingResult();
 };
 
-double** EdgeTrack::GetEdgeTrackMat(double** RGBMat) {
+void EdgeTrack::CalculateEdgeTrackMat() {
 	for (int i = 0; i < columns; i++) {
 		for (int j = 0; j < rows; j++) {
 			if (RGBMat[j][i] <= Low) {
@@ -31,5 +32,9 @@ double** EdgeTrack::GetEdgeTrackMat(double** RGBMat) {
 			}
 		}
 	}
-	return RGBMat;
+}
+
+Mat EdgeTrack::GetEdgeTrackingResult() {
+	Parasite::SArrToMat(RGBMat);
+	return Parasite::ProducedImage;
 }

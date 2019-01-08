@@ -1,38 +1,61 @@
 #pragma once
 #include "0.Image.h"
+#include "2.GradientsSearch.h"
 #include <math.h>
+#include <iostream>
 template <typename T> int sgn(T val) {
 	return (T(0) < val) - (val < T(0));
 }
-class NonMax :public Image {
+class NonMax :public GradientSearch{
 private:
 	short di;
 	short dj;
+protected:
 	double ** RMatrix;
 public:
-	NonMax(short GRows, short GColumns, double** RGBMat) :Image(GRows, GColumns) {
-		RMatrix = RGBMat;
+	NonMax(Mat ImgMat) :GradientSearch(ImgMat) {
+		RMatrix = new double *[rows];    // массив указателей (2)
+		for (int i = 0; i < rows; i++) {   // (3)
+			RMatrix[i] = new double[columns];     // инициализация указателей
+		}
+		
+		
+		CopyArrays(MagArr, RMatrix);
+
+		NonMaxSupr();
+		CopyArrays(RMatrix, RGBMat);
 	}
-	double** NonMaxSupr(double** RGBMat, double** VMapArr);
+	void NonMaxSupr();
+	Mat GetNonMaxSuprResult();
+	~NonMax() {
+		for (int i = 0; i < rows; i++) {
+			delete[] RMatrix[i];
+		}
+		delete[] RMatrix;
+	}
 };
 
-double** NonMax::NonMaxSupr(double** RGBMat, double** VMap) {
+void NonMax::NonMaxSupr() {
 	for (int i = 0; i < columns; i++) {
 		for (int j = 0; j < rows; j++) {
-			di = sgn(cos(VMap[j][i]));
-			dj = -sgn(sin(VMap[j][i]));
+			di = sgn(cos(VMapArr[j][i]));
+			dj = -sgn(sin(VMapArr[j][i]));
 			if ((j + dj > 0 && j + dj < rows) & (i + di > 0 && i + di < columns)) {
-				if (RGBMat[j + dj][i + di] <= RGBMat[j][i]) {
+				if (MagArr[j + dj][i + di] <= MagArr[j][i]) {
 					RMatrix[j + dj][i + di] = 0;
 				}
 			}
 
 			if ((j - dj > 0 && j - dj < rows) & (i - di > 0 && i - di < columns)) {
-				if (RGBMat[j + dj][i + di] <= RGBMat[j][i]) {
+				if (MagArr[j - dj][i - di] <= MagArr[j][i]) {
 					RMatrix[j - dj][i - di] = 0;
 				}
 			}
 		}
 	}
-	return RMatrix;
+}
+
+Mat NonMax::GetNonMaxSuprResult() {
+	Parasite::SArrToMat(RMatrix);
+	return Parasite::ProducedImage;
 }
