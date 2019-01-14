@@ -21,9 +21,7 @@ public :
 	/*
 	Получить Сглаженное изображение (1-ый этап алгоритма Canny)
 	*/
-	Mat GetSmoothedMat();
-
+	Mat GetSmoothedMat() {
+		return SmoothedMat;
+	}
 };
-Mat Smoothed::GetSmoothedMat() {
-	return SmoothedMat;
-}

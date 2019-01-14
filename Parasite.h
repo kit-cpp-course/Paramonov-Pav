@@ -30,49 +30,20 @@ public:
 		ichnl = Gch;
 		Step = Gstep;
 	}
-	void MatToSArr(uchar *ImageArray) {
-		ImgData = ImageArray;
-
-		RGBMat = new double *[rows];
-		for (int i = 0; i < rows; i++) {
-			RGBMat[i] = new double[columns];
-		}
-
-		for (int r = 0; r < rows; r++) {
-			for (int c = 0; c < columns; c++) {
-				for (int ch = 0; ch < ichnl; ch++) {
-					RGBMat[r][c] = ImgData[(ichnl*Step*r) + (ichnl*c) + ch];
-				}
-			}
-		}
-	}
-	void SArrToMat(double ** Array) {
-		//RGBMat = Array;
-
-		ImgData = new uchar[rows*columns];
-		for (int i = 0; i < rows*columns; i++) {
-			ImgData[i] = 0;
-		}
-
-		for (int r = 0; r < rows; r++) {
-			for (int c = 0; c < columns; c++) {
-				for (int ch = 0; ch < ichnl; ch++) {
-					ImgData[(ichnl*Step*r) + (ichnl*c) + ch] = Array[r][c];
-				}
-			}
-		}
-
-		ProducedImage.rows = rows;
-		ProducedImage.cols = columns;
-		ProducedImage.step = Step;
-		ProducedImage.data = ImgData;
-	}
-
-	void CopyArrays(double **Source, double **Target) {
-		for (int r = 0; r < rows; r++) {
-			for (int c = 0; c < columns; c++) {
-				Target[r][c] = Source[r][c];
-			}
-		}
-	}
+	/*
+	ѕеревод ћатрицы OpenCV в двумерный массив
+	@param uchar ImageArray - матрица изображени€ OpenCV 
+	*/
+	void MatToSArr(uchar *ImageArray);
+	/*
+	ѕеревод двумерного массива в ћатрицу OpenCV
+	@param double ** Array - двумерный массив 
+	*/
+	void SArrToMat(double ** Array);
+	/*
+	 опирование данных двумерных массивов
+	@param double ** Source - источник копировани€
+	@param double ** Target - цель копировани€
+	*/
+	void CopyArrays(double **Source, double **Target);
 };
