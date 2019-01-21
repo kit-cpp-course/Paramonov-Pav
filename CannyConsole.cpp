@@ -7,7 +7,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
-
+#include "T_ImgArray.h"
 #include "Parasite.h"
 using namespace cv;
 //using namespace Edge;
@@ -20,6 +20,8 @@ int main()
 	ImageLoad File(Path);
 
 	Mat Img = File.GetMat();
+
+
 
 	if (Img.empty()) {
 		std::cout << "File not Found in :" << Path;
@@ -63,6 +65,11 @@ int main()
 			waitKey(0);
 			destroyAllWindows();
 			system("CLS");
+
+			//TArray Array1(Canny.RGBMat,Canny.GetImgRows(), Canny.GetImgCols());
+			//TArray Array2(3, 4);
+			
+			//Array1 = Array2;
 		}
 		/*
 		imshow(UI.Choice, File.GetMat());

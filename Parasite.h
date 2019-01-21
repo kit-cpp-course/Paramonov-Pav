@@ -1,22 +1,27 @@
 #pragma once
 #include <atlimage.h>
 #include <iostream>
-#include "0.Image.h"
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 using namespace std;
 using namespace cv;
-class Parasite {
+/*
+ ласс содержит методы дл€:
+-преобразовани€ двумерных массивов в Mat и обратно
+-копирование элементов массивов 
+*/
+class Parasite{
+private:
+	size_t rows; //высота изображени€(число р€дов матрицы)
+	size_t columns;//ширина изображени€(число колонн матрицы)
+	size_t ichnl;//число каналов изображени€
+	size_t Step; //шаг в массиве данных OpenCV
 public:
-	unsigned short rows;
-	unsigned short columns;
-	unsigned short ichnl;
-	unsigned short Step;
-	uchar *ImgData;
-	double **RGBMat;
-	Mat ProducedImage;
+	uchar *ImgData; //массив данных OpenCV
+	double **RGBMat; //ћатрица »зображени€ 
+	Mat ProducedImage; //элмент типа Mat OpenCV
 	/*
 	 онструктор принимает на вход следующие параметры
 	@param Grows - кол-во р€дов в матрице изображени€
@@ -24,7 +29,7 @@ public:
 	@param Gch - кол-во каналов в изображении
 	@param Gstep - размер шага в Opencv (необходимо дл€ преобразовани€  матрицы изображени€ в Mat)
 	*/
-	Parasite(unsigned short Grows, unsigned short Gcols, unsigned short Gch, unsigned short Gstep) {
+	Parasite(size_t Grows, size_t Gcols, size_t Gch, size_t Gstep) {
 		rows = Grows;
 		columns = Gcols;
 		ichnl = Gch;
@@ -46,4 +51,12 @@ public:
 	@param double ** Target - цель копировани€
 	*/
 	void CopyArrays(double **Source, double **Target);
+	/*
+	ѕолучить ¬ысоту изображени€
+	*/
+	size_t GetImgRows() { return rows; };
+	/*
+	ѕолучить Ўирину изображени€
+	*/
+	size_t GetImgCols() { return columns; };
 };

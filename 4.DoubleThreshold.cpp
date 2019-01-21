@@ -2,13 +2,9 @@
 #include "4.DoubleThreshold.h"
 
 DThres::DThres(Mat ImgMat) : NonMax(ImgMat) {
-	DoubleThresholdMat = new double *[rows];    // массив указателей (2)
-	for (int i = 0; i < rows; i++) {   // (3)
-		DoubleThresholdMat[i] = new double[columns];     // инициализация указателей
-	}
-
+	DoubleThresholdMat.Init(rows, columns);
 	CalculateDoubleThreshold();
-	Parasite::CopyArrays(RGBMat, DoubleThresholdMat);
+	Parasite::CopyArrays(RGBMat, DoubleThresholdMat.Array);
 };
 void DThres::CalculateDoubleThreshold() {
 	for (int i = 0; i < columns; i++) {
@@ -24,6 +20,6 @@ void DThres::CalculateDoubleThreshold() {
 }
 
 Mat DThres::GetDoubleThresholdResult() {
-	Parasite::SArrToMat(DoubleThresholdMat);
+	Parasite::SArrToMat(DoubleThresholdMat.Array);
 	return Parasite::ProducedImage;
 }

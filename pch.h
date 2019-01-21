@@ -8,7 +8,13 @@
 
 #ifndef PCH_H
 #define PCH_H
-
+#include "1.Smothing.h"
+#include "2.GradientsSearch.h"
+#include "3.Non-Maximum.h"
+#include "4.DoubleThreshold.h"
+#include "5.EdgeTracking.h"
+#include "MenuText.h"
+#include "T.ImageLoad.h"
 // TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H

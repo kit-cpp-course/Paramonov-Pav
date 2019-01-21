@@ -7,10 +7,12 @@
 
 using namespace std;
 using namespace cv;
-
+/*
+Класс реализует первый этап алгоритма Кэнни(Сглаживание)
+*/
 class Smoothed:public Parasite{
 public :
-	Mat SmoothedMat;
+	Mat SmoothedMat; //элемент Mat содержащий Сглаженное иозбражение
 	/*
 	Конструктор производит размытие изображения с помощью Opencv
 	*/

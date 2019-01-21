@@ -2,7 +2,9 @@
 #include <iostream>
 
 using namespace std;
-
+/*
+Класс сожержит методы и переменные для общения с пользователем 
+*/
 class UserCommunication {
 public:
 	string Choice = "Error";
@@ -12,8 +14,10 @@ public:
 	string Choice_3 = "3 - Подавление не максимумов";
 	string Choice_4 = "4 - Двойная пороговая фильтрация";
 	string Choice_5 = "5 - Поиск границ";
-	short unsigned UserResp = 0;
-
+	short unsigned UserResp = 0;//Ответ пользователя 
+	/*
+	Метод производящий вывод на экран меню 
+	*/
 	void ShowMenu() {
 		cout << "Выберете этап для отображения :" << endl
 			
@@ -25,9 +29,12 @@ public:
 			<< Choice_6 << endl
 			<< "Сделайте выбор: ";
 	}
+	/*
+	метод отвечающий за общение с пользователем
+	*/
 	short unsigned UserResponse() {
 		cin >> UserResp;
-		if (UserResp > 6 | UserResp < 0) { return UserResp = 0; };
+		if ((UserResp > 6) | (UserResp < 0)) { return UserResp = 0; };
 		return UserResp;
 	}
 

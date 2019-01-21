@@ -7,13 +7,8 @@ void EdgeTrack::CalculateEdgeTrackMat() {
 				RGBMat[j][i] = 0;
 			}
 			else {
-				if (RGBMat[j][i] >= High) {
+				if (((RGBMat[j + 1][i] > High) || (RGBMat[j - 1][i] > High) || (RGBMat[j][i + 1] > High) || (RGBMat[j][i - 1] > High)) | (RGBMat[j][i] >= High)) {
 					RGBMat[j][i] = 255;
-				}
-				else {
-					if ((RGBMat[j + 1][i] > High) || (RGBMat[j - 1][i] > High) || (RGBMat[j][i + 1] > High) || (RGBMat[j][i - 1] > High)) {
-						RGBMat[j][i] = 255;
-					}
 				}
 			}
 		}
