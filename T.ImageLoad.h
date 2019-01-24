@@ -11,7 +11,9 @@
 using namespace std;
 using namespace cv;
 
-
+/*
+Класс отвечающий за загрузку изображения
+*/
 class ImageLoad{
 protected:
 	Mat RGBMat;

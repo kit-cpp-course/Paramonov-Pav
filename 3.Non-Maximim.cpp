@@ -1,32 +1,26 @@
 #include "pch.h"
 #include "3.Non-Maximum.h"
 NonMax::NonMax(Mat ImgMat) :GradientSearch(ImgMat) {
-	RMatrix = new double *[rows];    // массив указателей (2)
-	for (int i = 0; i < rows; i++) {   // (3)
-		RMatrix[i] = new double[columns];     // инициализация указателей
-	}
-
-
-	CopyArrays(MagArr, RMatrix);
-
+	RMatrix.Init(rows, columns);
+	RMatrix = MagArr;
 	NonMaxSupr();
-	CopyArrays(RMatrix, RGBMat);
+	CopyArrays(RMatrix.Array, RGBMat);
 }
 
 void NonMax::NonMaxSupr() {
 	for (int i = 0; i < columns; i++) {
 		for (int j = 0; j < rows; j++) {
-			di = sgn(cos(VMapArr[j][i]));
-			dj = -sgn(sin(VMapArr[j][i]));
+			di = sgn(cos(VMapArr.Array[j][i]));
+			dj = -sgn(sin(VMapArr.Array[j][i]));
 			if ((j + dj > 0 && j + dj < rows) & (i + di > 0 && i + di < columns)) {
-				if (MagArr[j + dj][i + di] <= MagArr[j][i]) {
-					RMatrix[j + dj][i + di] = 0;
+				if (MagArr.Array[j + dj][i + di] <= MagArr.Array[j][i]) {
+					RMatrix.Array[j + dj][i + di] = 0;
 				}
 			}
 
 			if ((j - dj > 0 && j - dj < rows) & (i - di > 0 && i - di < columns)) {
-				if (MagArr[j - dj][i - di] <= MagArr[j][i]) {
-					RMatrix[j - dj][i - di] = 0;
+				if (MagArr.Array[j - dj][i - di] <= MagArr.Array[j][i]) {
+					RMatrix.Array[j - dj][i - di] = 0;
 				}
 			}
 		}
@@ -34,6 +28,6 @@ void NonMax::NonMaxSupr() {
 }
 
 Mat NonMax::GetNonMaxSuprResult() {
-	Parasite::SArrToMat(RMatrix);
+	Parasite::SArrToMat(RMatrix.Array);
 	return Parasite::ProducedImage;
 }
